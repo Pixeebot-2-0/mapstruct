@@ -5,6 +5,8 @@
  */
 package org.mapstruct.ap.testutil.runner;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
@@ -75,7 +77,7 @@ final class ModifiableURLClassLoader extends URLClassLoader {
 
     ModifiableURLClassLoader withURL(String baseUrl) {
         try {
-            addURL( new URL( baseUrl ) );
+            addURL( Urls.create(baseUrl, Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS) );
         }
         catch ( MalformedURLException e ) {
             throw new RuntimeException( e );
