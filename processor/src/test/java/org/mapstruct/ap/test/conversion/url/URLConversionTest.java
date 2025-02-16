@@ -5,6 +5,8 @@
  */
 package org.mapstruct.ap.test.conversion.url;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import org.mapstruct.ap.testutil.ProcessorTest;
 import org.mapstruct.ap.testutil.WithClasses;
 
@@ -41,7 +43,7 @@ public class URLConversionTest {
         Source source = URLMapper.INSTANCE.targetToSource( target );
 
         assertThat( source ).isNotNull();
-        assertThat( source.getURL() ).isEqualTo( new URL( target.getURL() ) );
+        assertThat( source.getURL() ).isEqualTo( Urls.create(target.getURL(), Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS) );
     }
 
     @ProcessorTest

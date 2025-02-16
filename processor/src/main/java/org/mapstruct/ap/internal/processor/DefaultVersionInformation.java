@@ -5,6 +5,8 @@
  */
 package org.mapstruct.ap.internal.processor;
 
+import io.github.pixee.security.HostValidator;
+import io.github.pixee.security.Urls;
 import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
@@ -217,7 +219,7 @@ public class DefaultVersionInformation implements VersionInformation {
     private static URL createManifestUrl(String classFileName, URL resource) throws MalformedURLException {
         String classUrlString = resource.toExternalForm();
         String baseFileUrl = classUrlString.substring( 0, classUrlString.length() - classFileName.length() );
-        return new URL( baseFileUrl + "META-INF/MANIFEST.MF" );
+        return Urls.create(baseFileUrl + "META-INF/MANIFEST.MF", Urls.HTTP_PROTOCOLS, HostValidator.DENY_COMMON_INFRASTRUCTURE_TARGETS);
     }
 
     private static String asClassFileName(String className) {
